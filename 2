@@ -4,12 +4,6 @@ String name;
 double price;
 int qty;
 
-Product(){
-name="Mobile";
-price=10000;
-qty=1;
-}
-
 Product(String n,double p,int q){
 name=n;
 price=p;
@@ -25,8 +19,6 @@ class Ecommerce{
 public static void main(String args[]){
 Scanner sc=new Scanner(System.in);
 
-Product p1=new Product();
-
 System.out.print("Enter Product Name: ");
 String n=sc.next();
 
@@ -36,9 +28,9 @@ double p=sc.nextDouble();
 System.out.print("Enter Quantity: ");
 int q=sc.nextInt();
 
-Product p2=new Product(n,p,q);
+Product product=new Product(n,p,q);
 
-double total=p1.total()+p2.total();
+double total=product.total();
 double discount=0;
 
 if(total>20000)
@@ -47,8 +39,7 @@ discount=total*0.10;
 double finalAmount=total-discount;
 
 System.out.println("\n-----INVOICE-----");
-System.out.println(p1.name+" "+p1.price+" x "+p1.qty);
-System.out.println(p2.name+" "+p2.price+" x "+p2.qty);
+System.out.println(product.name+" "+product.price+" x "+product.qty);
 System.out.println("Total Amount = "+total);
 System.out.println("Discount = "+discount);
 System.out.println("Final Amount = "+finalAmount);
