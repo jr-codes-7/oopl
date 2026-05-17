@@ -1,0 +1,89 @@
+import java.util.Scanner;
+
+class Book{
+String name;
+boolean issued=false;
+static int count=0;
+
+Book(String n){
+name=n;
+count++;
+}
+
+void display(){
+System.out.println("Book Name: "+name);
+System.out.println("Issued: "+issued);
+}
+
+void issueBook(){
+if(!issued){
+issued=true;
+System.out.println("Book Issued");
+}
+else{
+System.out.println("Book Already Issued");
+}
+}
+
+void returnBook(){
+if(issued){
+issued=false;
+System.out.println("Book Returned");
+}
+else{
+System.out.println("Book Was Not Issued");
+}
+}
+
+static void totalBooks(){
+System.out.println("Total Books = "+count);
+}
+}
+
+class Library{
+public static void main(String args[]){
+Scanner sc=new Scanner(System.in);
+
+System.out.print("Enter Book Name: ");
+String n=sc.nextLine();
+
+Book b1=new Book(n);
+
+int ch;
+
+do{
+System.out.println("\n1.Display 2.Issue 3.Return 4.Total Books 5.Exit");
+System.out.print("Enter Choice: ");
+ch=sc.nextInt();
+
+switch(ch){
+
+case 1:
+b1.display();
+break;
+
+case 2:
+b1.issueBook();
+break;
+
+case 3:
+b1.returnBook();
+break;
+
+case 4:
+Book.totalBooks();
+break;
+
+case 5:
+System.out.println("Exit");
+break;
+
+default:
+System.out.println("Invalid Choice");
+}
+}
+while(ch!=5);
+
+sc.close();
+}
+}

@@ -1,0 +1,134 @@
+create database college;
+
+use college;
+
+create table student(
+rno int primary key,
+name varchar(50),
+marks double
+);
+
+import java.sql.*;
+import java.util.Scanner;
+
+class StudentDB{
+public static void main(String args[]){
+
+Scanner sc=new Scanner(System.in);
+
+try{
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+Connection con=DriverManager.getConnection(
+"jdbc:mysql://localhost:3306/college",
+"root",
+"root");
+
+con.setAutoCommit(false);
+
+int ch;
+
+do{
+
+System.out.println("\n1.Add 2.Update 3.Delete 4.View 5.Exit");
+System.out.print("Enter Choice: ");
+ch=sc.nextInt();
+
+switch(ch){
+
+case 1:
+
+System.out.print("Enter Roll No: ");
+int rno=sc.nextInt();
+
+System.out.print("Enter Name: ");
+String name=sc.next();
+
+System.out.print("Enter Marks: ");
+double marks=sc.nextDouble();
+
+PreparedStatement ps1=con.prepareStatement(
+"insert into student values(?,?,?)");
+
+ps1.setInt(1,rno);
+ps1.setString(2,name);
+ps1.setDouble(3,marks);
+
+ps1.executeUpdate();
+con.commit();
+
+System.out.println("Record Added");
+break;
+
+case 2:
+
+System.out.print("Enter Roll No: ");
+int ur=sc.nextInt();
+
+System.out.print("Enter New Marks: ");
+double nm=sc.nextDouble();
+
+PreparedStatement ps2=con.prepareStatement(
+"update student set marks=? where rno=?");
+
+ps2.setDouble(1,nm);
+ps2.setInt(2,ur);
+
+ps2.executeUpdate();
+con.commit();
+
+System.out.println("Record Updated");
+break;
+
+case 3:
+
+System.out.print("Enter Roll No: ");
+int dr=sc.nextInt();
+
+PreparedStatement ps3=con.prepareStatement(
+"delete from student where rno=?");
+
+ps3.setInt(1,dr);
+
+ps3.executeUpdate();
+con.commit();
+
+System.out.println("Record Deleted");
+break;
+
+case 4:
+
+Statement st=con.createStatement();
+
+ResultSet rs=st.executeQuery("select * from student");
+
+while(rs.next()){
+
+System.out.println(
+rs.getInt(1)+" "+
+rs.getString(2)+" "+
+rs.getDouble(3));
+}
+break;
+
+case 5:
+System.out.println("Exit");
+break;
+
+default:
+System.out.println("Invalid Choice");
+}
+}
+while(ch!=5);
+
+con.close();
+}
+
+catch(Exception e){
+System.out.println(e);
+}
+
+sc.close();
+}
+}

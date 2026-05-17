@@ -1,0 +1,129 @@
+create database company;
+
+use company;
+
+create table employee(
+id int primary key,
+name varchar(50),
+salary double
+);
+
+import java.sql.*;
+import java.util.Scanner;
+
+class EmployeeDB{
+public static void main(String args[]){
+
+Scanner sc=new Scanner(System.in);
+
+try{
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+Connection con=DriverManager.getConnection(
+"jdbc:mysql://localhost:3306/company",
+"root",
+"root");
+
+int ch;
+
+do{
+
+System.out.println("\n1.Add 2.Update 3.Delete 4.View 5.Exit");
+System.out.print("Enter Choice: ");
+ch=sc.nextInt();
+
+switch(ch){
+
+case 1:
+
+System.out.print("Enter ID: ");
+int id=sc.nextInt();
+
+System.out.print("Enter Name: ");
+String name=sc.next();
+
+System.out.print("Enter Salary: ");
+double sal=sc.nextDouble();
+
+PreparedStatement ps1=con.prepareStatement(
+"insert into employee values(?,?,?)");
+
+ps1.setInt(1,id);
+ps1.setString(2,name);
+ps1.setDouble(3,sal);
+
+ps1.executeUpdate();
+
+System.out.println("Record Added");
+break;
+
+case 2:
+
+System.out.print("Enter ID: ");
+int uid=sc.nextInt();
+
+System.out.print("Enter New Salary: ");
+double nsal=sc.nextDouble();
+
+PreparedStatement ps2=con.prepareStatement(
+"update employee set salary=? where id=?");
+
+ps2.setDouble(1,nsal);
+ps2.setInt(2,uid);
+
+ps2.executeUpdate();
+
+System.out.println("Record Updated");
+break;
+
+case 3:
+
+System.out.print("Enter ID: ");
+int did=sc.nextInt();
+
+PreparedStatement ps3=con.prepareStatement(
+"delete from employee where id=?");
+
+ps3.setInt(1,did);
+
+ps3.executeUpdate();
+
+System.out.println("Record Deleted");
+break;
+
+case 4:
+
+Statement st=con.createStatement();
+
+ResultSet rs=st.executeQuery("select * from employee");
+
+while(rs.next()){
+
+System.out.println(
+rs.getInt(1)+" "+
+rs.getString(2)+" "+
+rs.getDouble(3));
+}
+break;
+
+case 5:
+System.out.println("Exit");
+break;
+
+default:
+System.out.println("Invalid Choice");
+}
+}
+while(ch!=5);
+
+con.close();
+}
+
+catch(Exception e){
+System.out.println(e);
+}
+
+sc.close();
+}
+}
