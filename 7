@@ -1,22 +1,70 @@
-abstract class Vehicle{
-abstract void start();
-void stop(){
-System.out.println("Vehicle stopped");
-}
-}
-class Car extends Vehicle{
-void start(){
-System.out.println("Car started");
-}
-void drive(){
-System.out.println("Car is moving");
-}
-}
-public class AbstractDemo{
+import java.util.Scanner;
+public class Abstract{
 public static void main(String[] args){
-Car c=new Car();
-c.start();
-c.drive();
-c.stop();
+Scanner sc=new Scanner(System.in);
+Payment p1=null;
+System.out.print("1.Cash on delivery");
+System.out.print("\n2.UPI");
+System.out.print("\nSelect payment method:");
+int choice=sc.nextInt();
+sc.nextLine();
+if(choice==1){
+System.out.print("Enter user name:");
+String name=sc.nextLine();
+p1=new CoD();
+p1.info(name,0);
+p1.startPayment();
+p1.paymentType();
+p1.transactionLimit();
+p1.endPayment();
+}
+else if(choice==2){
+System.out.print("Enter UPI user name:");
+String name=sc.nextLine();
+p1=new UPI();
+p1.info(name,10);
+p1.startPayment();
+p1.paymentType();
+p1.transactionLimit();
+p1.endPayment();
+}
+else{
+System.out.print("Invalid choice");
+}
+sc.close();
+}
+}
+abstract class Payment{
+abstract void startPayment();
+abstract void paymentType();
+abstract void transactionLimit();
+void endPayment(){
+System.out.print("\nPayment Completed");
+}
+void info(String name,int id){
+System.out.print("User name:"+name);
+System.out.print("\nID length:"+id);
+}
+}
+class CoD extends Payment{
+void startPayment(){
+System.out.print("\nPayment Started");
+}
+void paymentType(){
+System.out.print("\nPayment type:COD");
+}
+void transactionLimit(){
+System.out.print("\nTransaction limit:No limit");
+}
+}
+class UPI extends Payment{
+void startPayment(){
+System.out.print("\nUPI Payment Started");
+}
+void paymentType(){
+System.out.print("\nPayment type:Instant Transfer");
+}
+void transactionLimit(){
+System.out.print("\nTransaction limit:1,00,000");
 }
 }
